@@ -40,6 +40,7 @@ RDEPENDS_${PN}-flash = " \
 
 SUMMARY_${PN}-system = "Inspur System"
 RDEPENDS_${PN}-system = " \
+        ipmitool \
         bmcweb \
         entity-manager \
         phosphor-webui \
