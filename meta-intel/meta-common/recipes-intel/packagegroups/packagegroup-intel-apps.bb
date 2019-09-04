@@ -46,4 +46,5 @@ RDEPENDS_${PN}-system = " \
         intel-ipmi-oem \
         dbus-sensors \
         phosphor-webui \
+        ipmitool \
         "
