@@ -1,0 +1,26 @@
+diff --git a/app/common/directives/app-header.html b/app/common/directives/app-header.html
+index 651e56d..fb90411 100644
+--- a/app/common/directives/app-header.html
++++ b/app/common/directives/app-header.html
+@@ -7,7 +7,7 @@
+   <div class="header__functions-section">
+     <div class="logo__wrapper">
+       <img
+-        src="../../assets/images/logo.svg"
++        src="../../assets/images/hummingbird.png"
+         class="header__logo"
+         alt="company logo"
+       />
+diff --git a/app/login/controllers/login-controller.html b/app/login/controllers/login-controller.html
+index e162d8f..0f467b4 100644
+--- a/app/login/controllers/login-controller.html
++++ b/app/login/controllers/login-controller.html
+@@ -1,7 +1,7 @@
+ <div>
+   <div class="row">
+     <div class="columns large-6">
+-      <img src="../../assets/images/logo.svg" class="login__logo" alt="OpenBMC logo"/>
++      <img src="../../assets/images/hummingbird.png" class="login__logo" alt="OpenBMC logo"/>
+       <h1 class="login__desc">OpenBMC</h1>
+     </div>
+     <div class="columns large-6">
