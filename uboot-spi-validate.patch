@@ -1,0 +1,82 @@
+diff --git a/arch/arm/mach-aspeed/flash.c b/arch/arm/mach-aspeed/flash.c
+index b8a438df75..3e62980731 100644
+--- a/arch/arm/mach-aspeed/flash.c
++++ b/arch/arm/mach-aspeed/flash.c
+@@ -58,6 +58,7 @@
+ #define CFI_MFR_MACRONIX		0x00C2
+ #define CFI_MFR_MICRON			0x0020
+ #define CFI_MFR_WINBOND         	0x00DA
++#define CFI_MFR_WINBOND_1         	0x00EF
+ 
+ flash_info_t flash_info[CONFIG_SYS_MAX_FLASH_BANKS];		/* FLASH chips info */
+ 
+@@ -682,7 +683,9 @@ void flash_print_info (flash_info_t * info)
+ 	switch (info->flash_id & 0xff) {
+ 		case CFI_MFR_MACRONIX: 	printf ("MACRONIX ");		break;
+ 		case CFI_MFR_MICRON: 	printf ("MICRON ");		break;
+-		case CFI_MFR_WINBOND: 	printf ("WINBOND ");		break;
++		case CFI_MFR_WINBOND:
++		case CFI_MFR_WINBOND_1:
++								printf ("WINBOND ");		break;
+ 		default:		printf ("Unknown Vendor %lx", info->flash_id); break;
+ 	}
+ 
+@@ -744,6 +747,9 @@ static ulong flash_get_size (ulong base, flash_info_t *info)
+ 	ulong ulCtrlData, CtrlOffset = CS0_CTRL;
+ 	ulong ulID;
+ 	uchar ch[3];
++	uchar uniqid[8];
++	
++	//uchar uniqid_valid[] = {d3,64,a4,74,43,34,20,2b};
+ 	ulong reg;
+ 	ulong WriteClk, EraseClk, ReadClk;
+ 	ulong vbase;
+@@ -786,7 +792,47 @@ static ulong flash_get_size (ulong base, flash_info_t *info)
+ 	ulID = ((ulong)ch[0]) | ((ulong)ch[1] << 8) | ((ulong)ch[2] << 16) ;
+ 	info->flash_id = ulID;
+ 
+-//	printf("SPI Flash ID: %x \n", ulID);
++	printf("SPI Flash ID: %x \n", ulID);
++
++	/* Get Flash ID */
++	ulCtrlData  = *(ulong *) (info->reg_base + CtrlOffset) & CMD_MASK;
++	ulCtrlData |= CE_LOW | USERMODE;
++	*(ulong *) (info->reg_base + CtrlOffset) = ulCtrlData;
++	udelay(200);
++	*(uchar *) (vbase) = (uchar) (0x4B);
++	udelay(10);
++	*(uchar *) (vbase) = (uchar) (0x0);
++	udelay(10);
++	*(uchar *) (vbase) = (uchar) (0x0);
++	udelay(10);
++	*(uchar *) (vbase) = (uchar) (0x0);
++	udelay(10);
++	*(uchar *) (vbase) = (uchar) (0x0);
++	udelay(10);
++	uniqid[0] = *(volatile uchar *)(vbase);
++	udelay(10);
++	uniqid[1] = *(volatile uchar *)(vbase);
++	udelay(10);
++	uniqid[2] = *(volatile uchar *)(vbase);
++	udelay(10);
++	uniqid[3] = *(volatile uchar *)(vbase);
++	udelay(10);
++	uniqid[4] = *(volatile uchar *)(vbase);
++	udelay(10);
++	uniqid[5] = *(volatile uchar *)(vbase);
++	udelay(10);
++	uniqid[6] = *(volatile uchar *)(vbase);
++	udelay(10);
++	uniqid[7] = *(volatile uchar *)(vbase);
++	udelay(10);
++	ulCtrlData  = *(ulong *) (info->reg_base + CtrlOffset) & CMD_MASK;
++	ulCtrlData |= CE_HIGH | USERMODE;
++	*(ulong *) (info->reg_base + CtrlOffset) = ulCtrlData;
++	udelay(200);
++	//info->flash_id = ulID;
++
++	printf("SPI unique Flash ID: %x,%x,%x,%x,%x,%x,%x,%x\n", uniqid[0], uniqid[1], uniqid[2],uniqid[3], 
++			uniqid[4], uniqid[5],uniqid[6], uniqid[7]);
+ 
+ 	/* init default */
+ 	info->iomode = IOMODEx1;
