@@ -114,7 +114,8 @@ PACKAGE_CLASSES ?= "package_rpm"
 # running the build on (i.e. building i686 packages on an x86_64 host).
 # Supported values are i686 and x86_64
 #SDKMACHINE ?= "i686"
-SANITY_TESTED_DISTROS_append ?= " RedHatEnterpriseWorkstation-6.*"
+SANITY_TESTED_DISTROS_append ?= " RedHatEnterpriseWorkstation-6.* \n \
+                                  ubuntu-18.04"
 
 #
 # Extra image configuration defaults
