@@ -1,0 +1,45 @@
+diff --git a/arch/arm/boot/dts/aspeed-bmc-inspur-on5263m5.dts b/arch/arm/boot/dts/aspeed-bmc-inspur-on5263m5.dts
+index 2337ee23f5c4..0d1a13def512 100644
+--- a/arch/arm/boot/dts/aspeed-bmc-inspur-on5263m5.dts
++++ b/arch/arm/boot/dts/aspeed-bmc-inspur-on5263m5.dts
+@@ -33,9 +33,20 @@
+ 	    compatible = "gpio-leds";
+ 	    bmc_alive {
+ 		label = "bmc_alive";
+-		gpios = <&gpio ASPEED_GPIO(I, 1) GPIO_ACTIVE_LOW>;
++		gpios = <&gpio ASPEED_GPIO(M, 1) GPIO_ACTIVE_LOW>;
+ 		linux,default-trigger = "timer";
+ 	    };
++	fault {
++			gpios = <&gpio ASPEED_GPIO(M, 2) GPIO_ACTIVE_LOW>;
++		};
++
++		identify {
++			gpios = <&gpio ASPEED_GPIO(M, 4) GPIO_ACTIVE_LOW>;
++		};
++
++		power {
++			gpios = <&gpio ASPEED_GPIO(M, 5) GPIO_ACTIVE_LOW>;
++		};
+ 	};
+ 
+ 	iio-hwmon {
+@@ -72,6 +83,18 @@
+ 	status = "okay";
+ };
+ 
++&kcs2 {
++	// BMC KCS channel 2
++	status = "okay";
++	kcs_addr = <0xca8>;
++};
++
++&kcs3 {
++	// BMC KCS channel 3
++	status = "okay";
++	kcs_addr = <0xca2>;
++};
++
+ &mac0 {
+ 	status = "okay";
+ 
