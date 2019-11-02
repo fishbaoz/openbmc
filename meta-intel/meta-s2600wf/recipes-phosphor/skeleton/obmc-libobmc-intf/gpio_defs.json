@@ -15,7 +15,7 @@
     "gpio_definitions": [
         {
             "name": "PGOOD",
-            "pin": "AB3",
+            "pin": "F7",
             "direction": "in"
         },
         {
@@ -25,7 +25,7 @@
         },
         {
             "name": "POWER_UP_PIN",
-            "pin": "E3",
+            "pin": "E1",
             "direction": "out"
         },
         {
@@ -35,7 +35,7 @@
         },
         {
             "name": "RESET_OUT",
-            "pin": "E1",
+            "pin": "E3",
             "direction": "out"
         },
         {
