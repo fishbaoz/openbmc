@@ -47,4 +47,5 @@ RDEPENDS:${PN}-system = " \
         phosphor-hostlogger \
         webui-vue \
         srvcfg-manager \
+        iotools \
         "
